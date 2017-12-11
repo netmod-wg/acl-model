@@ -275,12 +275,6 @@ module ietf-access-control-list {
        only per ACL entry";
   }
 
-  feature interface-acl-aggregate {
-    description
-      "ACL counters are reported per interface, and also aggregated
-       and reported per ACL entry";
-  }
-  
   /*
    * Attachment point features
    */
@@ -289,11 +283,6 @@ module ietf-access-control-list {
       "ACLs are set on interfaces.";
   }
 
-  feature global-attachment {
-    description
-      "ACLs are set globally.";
-  }
-  
   /*
    * Typedefs
    */
@@ -332,7 +321,7 @@ module ietf-access-control-list {
 
         leaf name {
           type leafref {
-            path "../../../../../../acl/name";
+            path "/access-lists/acl/name";
           }
           description
             "Reference to the ACL name applied on ingress";
@@ -340,21 +329,21 @@ module ietf-access-control-list {
 
         leaf type {
           type leafref {
-            path "../../../../../../acl/type";
+            path "/access-lists/acl/type";
           }
           description
             "Reference to the ACL set acl-type applied on ingress";
         }
 
         list ace {
-          if-feature "interface-stats or interface-acl-aggregate";
+          if-feature "interface-stats";
           key "name";
           config false;
           description
             "List of access list entries(ACE)";
           leaf name {
             type leafref {
-              path "../../../../../../../acl/aces/ace/name";
+              path "/access-lists/acl/aces/ace/name";
             }
             description
               "The ace name";
@@ -464,11 +453,12 @@ module ietf-access-control-list {
           container matches {
             description
               "The rules in this set determine what fields will be
-               matched upon before any action is taken on them.
-               The rules are selected based on the feature set
-               defined by the server and the acl-type defined.
-               If the packet does not match any of the fields
-               defined, it is considered match for 'any'.";
+               matched upon before any action is taken on them.  The
+               rules are selected based on the feature set defined by
+               the server and the acl-type defined.  If no matches are
+               defined in a particular container, then any packet will
+               match that container. If no matches are specified at
+               all in an ACE, then any packet will match the ACE.";
 
             choice l2 {
               container eth {
@@ -583,7 +573,7 @@ module ietf-access-control-list {
             }
           }
           container statistics {
-            if-feature "acl-aggregate-stats or interface-acl-aggregate";
+            if-feature "acl-aggregate-stats";
             config false;
             description
               "Statistics gathered per interface or across all
@@ -593,34 +583,20 @@ module ietf-access-control-list {
         }
       }
     }
-    container attachment-points {
+  }
+  augment "/if:interfaces/if:interface" {
+    description
+      "Augment interfaces to allow ACLs to be associated in either the
+       ingress or egress direction.";
+    container ingress-acls {
+      uses interface-acl;
       description
-        "Enclosing container for the list of 
-         attachment-points on which ACLs are set";
-      
-      list interface {
-        if-feature interface-attachment;
-        key "interface-id";
-        description
-          "List of interfaces on which ACLs are set";
-        
-        leaf interface-id {
-        	  type if:interface-ref;
-          description
-            "Reference to the interface id list key";
-        }
-
-        container ingress {
-          uses interface-acl;
-          description
-            "The ACL's applied to ingress interface";
-        }
-        container egress {
-          uses interface-acl;
-          description
-            "The ACL's applied to egress interface";
-        }
-      }
+        "The ACL's applied to ingress interface";
+    }
+    container egress-acls {
+      uses interface-acl;
+      description
+        "The ACL's applied to egress interface";
     }
   }
 }
