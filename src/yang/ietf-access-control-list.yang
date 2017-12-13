@@ -335,7 +335,7 @@ module ietf-access-control-list {
             "Reference to the ACL set acl-type applied on ingress";
         }
 
-        list ace {
+        list ace-statistics {
           if-feature "interface-stats";
           key "name";
           config false;

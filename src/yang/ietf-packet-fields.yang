@@ -60,13 +60,13 @@ module ietf-packet-fields {
    */
   typedef operator {
     type enumeration {
-      enum lt {
+      enum lte {
         description
-          "Less than.";
+          "Less than or equal to.";
       }
-      enum gt {
+      enum gte {
         description
-          "Greater than.";
+          "Greater than or equal to.";
       }
       enum eq {
         description
@@ -88,6 +88,73 @@ module ietf-packet-fields {
   grouping acl-transport-header-fields {
     description
       "Transport header fields";
+    choice source-port-range-or-operator {
+      case range {
+        leaf source-port-lower {
+          type inet:port-number;
+          must ". <= ../source-port-upper" {
+            error-message
+              "The source-port-lower must be less than or equal to
+               source-port-upper";
+          }
+          mandatory true;
+          description
+            "Lower boundary for port.";
+        }
+        leaf source-port-upper {
+          type inet:port-number;
+          mandatory true;
+          description
+            "Lower boundary for port.";
+        }
+      }
+      case operator {
+        leaf source-operator {
+          type operator;
+          mandatory true;
+        }
+        leaf source-port {
+          type inet:port-number;
+          mandatory true;
+          description
+            "Port value to match.";
+        }
+      }
+    }
+    choice destination-port-range-or-operator {
+      case range {
+        leaf destination-port-lower {
+          type inet:port-number;
+          must ". <= ../destination-port-upper" {
+            error-message
+              "The destination-port-lower must be less than or equal
+               to destination-port-upper";
+          }
+          mandatory true;
+          description
+            "Lower boundary for port.";
+        }
+        leaf destination-port-upper {
+          type inet:port-number;
+          mandatory true;
+          description
+            "Lower boundary for port.";
+        }
+      }
+      case operator {
+        leaf destination-operator {
+          type operator;
+          mandatory true;
+        }
+        leaf destination-port {
+          type inet:port-number;
+          mandatory true;
+          description
+            "Port value to match.";
+        }
+      }
+    }
+    /*
     container source-port-range {
       presence "Enables setting source port range";
       description
@@ -177,6 +244,7 @@ module ietf-packet-fields {
           "Operator to be applied on the lower-port.";
       }
     }
+    */
   }
 
   grouping acl-ip-header-fields {
