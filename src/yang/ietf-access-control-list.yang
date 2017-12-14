@@ -563,14 +563,6 @@ module ietf-access-control-list {
                  packet.";
             }
 
-            leaf icmp-off {
-              type boolean;
-              default "false";
-              description
-                "True indicates ICMP errors will never be generated
-                 in response to an ICMP error message. false indicates
-                 ICMP error will be generated.";
-            }
           }
           container statistics {
             if-feature "acl-aggregate-stats";
@@ -588,15 +580,19 @@ module ietf-access-control-list {
     description
       "Augment interfaces to allow ACLs to be associated in either the
        ingress or egress direction.";
-    container ingress-acls {
-      uses interface-acl;
+    container acls {
       description
-        "The ACL's applied to ingress interface";
-    }
-    container egress-acls {
-      uses interface-acl;
-      description
-        "The ACL's applied to egress interface";
+        "Container for ingress and egress ACL attachment points";
+      container ingress {
+        uses interface-acl;
+        description
+          "The ACL's applied to ingress interface";
+      }
+      container egress {
+        uses interface-acl;
+        description
+          "The ACL's applied to egress interface";
+      }
     }
   }
 }
