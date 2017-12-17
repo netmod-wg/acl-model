@@ -581,6 +581,7 @@ module ietf-access-control-list {
       "Augment interfaces to allow ACLs to be associated in either the
        ingress or egress direction.";
     container acls {
+      if-feature "interface-attachment";
       description
         "Container for ingress and egress ACL attachment points";
       container ingress {
