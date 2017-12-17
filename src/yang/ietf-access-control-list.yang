@@ -275,12 +275,6 @@ module ietf-access-control-list {
        only per ACL entry";
   }
 
-  feature interface-acl-aggregate {
-    description
-      "ACL counters are reported per interface, and also aggregated
-       and reported per ACL entry";
-  }
-  
   /*
    * Attachment point features
    */
@@ -289,11 +283,6 @@ module ietf-access-control-list {
       "ACLs are set on interfaces.";
   }
 
-  feature global-attachment {
-    description
-      "ACLs are set globally.";
-  }
-  
   /*
    * Typedefs
    */
@@ -325,38 +314,39 @@ module ietf-access-control-list {
          interface";
 
       list acl-set {
-        key "set-name type";
+        key "name";
         ordered-by user;
         description
           "List of ingress ACLs on the interface";
 
-        leaf set-name {
+        leaf name {
           type leafref {
-            path "../../../../../../acl/name";
+            path "/access-lists/acl/name";
           }
           description
-            "Reference to the ACL set name applied on ingress";
+            "Reference to the ACL name applied on ingress";
         }
 
         leaf type {
           type leafref {
-            path "../../../../../../acl/acl-type";
+            path "/access-lists/acl/type";
           }
           description
             "Reference to the ACL set acl-type applied on ingress";
         }
 
-        list ace {
-          if-feature "interface-stats or interface-acl-aggregate";
-          key "rule-name";
+        list ace-statistics {
+          if-feature "interface-stats";
+          key "name";
+          config false;
           description
             "List of access list entries(ACE)";
-          leaf rule-name {
+          leaf name {
             type leafref {
-              path "../../../../../../../acl/aces/ace/rule-name";
+              path "/access-lists/acl/aces/ace/name";
             }
             description
-              "The ace rule-name";
+              "The ace name";
           }
           uses acl-counters;
         }
@@ -424,9 +414,8 @@ module ietf-access-control-list {
          list of match criteria and a list of actions.
          Since there are several kinds of Access Control Lists
          implemented with different attributes for
-         different vendors, this
-         model accommodates customizing Access Control Lists for
-         each kind and for each vendor.";
+         different vendors, this model accommodates customizing 
+         Access Control Lists for each kind and for each vendor.";
       leaf name {
         type string {
           length "1..64";
@@ -436,7 +425,7 @@ module ietf-access-control-list {
            and value of this name, possibly space and special
            characters are not allowed.";
       }
-      leaf acl-type {
+      leaf type {
         type acl-type;
         description
           "Type of access control list. Indicates the primary intended
@@ -448,11 +437,11 @@ module ietf-access-control-list {
           "The access-list-entries container contains
            a list of access-list-entries(ACE).";
         list ace {
-          key "rule-name";
+          key "name";
           ordered-by user;
           description
             "List of access list entries(ACE)";
-          leaf rule-name {
+          leaf name {
             type string {
               length "1..64";
             }
@@ -464,39 +453,49 @@ module ietf-access-control-list {
           container matches {
             description
               "The rules in this set determine what fields will be
-               matched upon before any action is taken on them.
-               The rules are selected based on the feature set
-               defined by the server and the acl-type defined.";
+               matched upon before any action is taken on them.  The
+               rules are selected based on the feature set defined by
+               the server and the acl-type defined.  If no matches are
+               defined in a particular container, then any packet will
+               match that container. If no matches are specified at
+               all in an ACE, then any packet will match the ACE.";
 
-            container eth {
-              when "derived-from(../../../../acl-type, " +
-                   "'acl:eth-acl-type')";
-              if-feature match-on-eth;
-              uses packet-fields:acl-eth-header-fields;
+            choice l2 {
+              container eth {
+                when "derived-from(../../../../type, " +
+                     "'acl:eth-acl-type')";
+                if-feature match-on-eth;
+                uses packet-fields:acl-eth-header-fields;
+                description
+                  "Rule set that matches ethernet headers.";
+              }
               description
-                "Rule set that supports ethernet headers.";
+                "Choice of layer 2 headers, currently only
+                 ethernet.";
             }
 
             choice l3 {
               container ipv4 {
-                when "derived-from(../../../../acl-type, " +
+                when "derived-from(../../../../type, " +
                      "'acl:ipv4-acl-type')";
                 if-feature match-on-ipv4;
                 uses packet-fields:acl-ip-header-fields;
                 uses packet-fields:acl-ipv4-header-fields;
                 description
-                  "Rule set that supports IPv4 headers.";
+                  "Rule set that matches IPv4 headers.";
               }
 
               container ipv6 {
-                when "derived-from(../../../../acl-type, " +
+                when "derived-from(../../../../type, " +
                      "'acl:ipv6-acl-type')";
                 if-feature match-on-ipv6;
                 uses packet-fields:acl-ip-header-fields;
                 uses packet-fields:acl-ipv6-header-fields;
                 description
-                  "Rule set that supports IPv6 headers.";
+                  "Rule set that matches IPv6 headers.";
               }
+              description
+                "Choice of either ipv4 or ipv6 headers";
             }
 
             choice l4 {
@@ -504,22 +503,24 @@ module ietf-access-control-list {
                 if-feature match-on-tcp;
                 uses packet-fields:acl-tcp-header-fields;
                   description
-                    "Rule set that defines TCP headers.";
+                    "Rule set that matches TCP headers.";
               }
 
               container udp {
                 if-feature match-on-udp;
                 uses packet-fields:acl-udp-header-fields;
                 description
-                  "Rule set that defines UDP headers.";
+                  "Rule set that matches UDP headers.";
               }
 
               container icmp {
                 if-feature match-on-icmp;
                 uses packet-fields:acl-icmp-header-fields;
                 description
-                  "Rule set that defines ICMP headers.";
+                  "Rule set that matches ICMP headers.";
               }
+              description
+                "Choice of TCP, UDP or ICMP headers.";
             }
             
             leaf egress-interface {
@@ -540,9 +541,8 @@ module ietf-access-control-list {
           }
 
           container actions {
-            if-feature "acl-aggregate-stats or interface-acl-aggregate";
             description
-              "Definitions of action criteria for this ace entry";
+              "Definitions of action for this ace entry";
             leaf forwarding {
               type identityref {
                 base forwarding-action;
@@ -563,46 +563,36 @@ module ietf-access-control-list {
                  packet.";
             }
 
-            leaf icmp-off {
-              type boolean;
-              default "false";
-              description
-                "True indicates ICMP errors will never be generated
-                 in response to an ICMP error message. false indicates
-                 ICMP error will be generated.";
-            }
           }
-          uses acl-counters;
+          container statistics {
+            if-feature "acl-aggregate-stats";
+            config false;
+            description
+              "Statistics gathered per interface or across all
+               interfaces.";
+            uses acl-counters;
+          }
         }
       }
     }
-    container attachment-points {
+  }
+  augment "/if:interfaces/if:interface" {
+    description
+      "Augment interfaces to allow ACLs to be associated in either the
+       ingress or egress direction.";
+    container acls {
+      if-feature "interface-attachment";
       description
-        "Enclosing container for the list of 
-         attachment-points on which ACLs are set";
-      
-      list interface {
-        if-feature interface-attachment;
-        key "interface-id";
+        "Container for ingress and egress ACL attachment points";
+      container ingress {
+        uses interface-acl;
         description
-          "List of interfaces on which ACLs are set";
-        
-        leaf interface-id {
-        	  type if:interface-ref;
-          description
-            "Reference to the interface id list key";
-        }
-
-        container ingress {
-          uses interface-acl;
-          description
-            "The ACL's applied to ingress interface";
-        }
-        container egress {
-          uses interface-acl;
-          description
-            "The ACL's applied to egress interface";
-        }
+          "The ACL's applied to ingress interface";
+      }
+      container egress {
+        uses interface-acl;
+        description
+          "The ACL's applied to egress interface";
       }
     }
   }
