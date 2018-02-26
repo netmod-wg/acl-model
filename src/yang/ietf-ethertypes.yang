@@ -1,6 +1,6 @@
 module ietf-ethertypes {
   namespace "urn:ietf:params:xml:ns:yang:ietf-ethertypes";
-  prefix ie;
+  prefix ethertypes;
   
   organization
     "IETF NETMOD (NETCONF Data Modeling Language)";

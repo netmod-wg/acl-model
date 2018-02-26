@@ -397,12 +397,6 @@ module ietf-packet-fields {
 
     leaf flags {
       type bits {
-        bit ns {
-          position 0;
-          description
-            "ECN-nonce concealment protection";
-          reference "RFC 3540";
-        }
         bit cwr {
           position 1;
           description

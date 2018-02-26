@@ -404,7 +404,7 @@ module ietf-access-control-list {
 
             choice l2 {
               container eth {
-                when "derived-from(../../../../type, " +
+                when "derived-from-or-self(../../../../type, " +
                      "'acl:eth-acl-type')";
                 if-feature match-on-eth;
                 uses pf:acl-eth-header-fields;
@@ -418,7 +418,7 @@ module ietf-access-control-list {
 
             choice l3 {
               container ipv4 {
-                when "derived-from(../../../../type, " +
+                when "derived-from-or-self(../../../../type, " +
                      "'acl:ipv4-acl-type')";
                 if-feature match-on-ipv4;
                 uses pf:acl-ip-header-fields;
@@ -428,7 +428,7 @@ module ietf-access-control-list {
               }
 
               container ipv6 {
-                when "derived-from(../../../../type, " +
+                when "derived-from-or-self(../../../../type, " +
                      "'acl:ipv6-acl-type')";
                 if-feature match-on-ipv6;
                 uses pf:acl-ip-header-fields;
@@ -444,25 +444,37 @@ module ietf-access-control-list {
               container tcp {
                 if-feature match-on-tcp;
                 uses pf:acl-tcp-header-fields;
-                choice source-port {
-                  container source-port-range-or-operator {
-                    uses pf:port-range-or-operator;
+                container source-port {
+                  choice source-port {
+                    case range-or-operator {
+                      uses pf:port-range-or-operator;
+                      description
+                        "Source port definition from range or
+                         operator.";
+                    }
                     description
-                      "Source port definition.";
+                      "Choice of source port definition using
+                       range/operator or referring to a group of
+                       source ports";
                   }
                   description
-                    "Choice of specifying the source port or referring to
-                     a group of source ports.";
+                    "Source port definition.";
                 }
-                choice destination-port {
-                  container destination-port-range-or-operator {
-                    uses pf:port-range-or-operator;
+                container destination-port {
+                  choice destination-port {
+                    case range-or-operator {
+                      uses pf:port-range-or-operator;
+                      description
+                        "Destination port definition from range or
+                         operator.";
+                    }
                     description
-                      "Destination port definition.";
+                      "Choice of destination port definition using
+                       range/operator or referring to a group of 
+                       destination ports.";
                   }
                   description
-                    "Choice of specifying a destination port or referring
-                     to a group of destination ports.";
+                    "Destination port definition.";
                 }
                 description
                   "Rule set that matches TCP headers.";
@@ -471,25 +483,37 @@ module ietf-access-control-list {
               container udp {
                 if-feature match-on-udp;
                 uses pf:acl-udp-header-fields;
-                choice source-port {
-                  container source-port-range-or-operator {
-                    uses pf:port-range-or-operator;
+                container source-port {
+                  choice source-port {
+                    case range-or-operator {
+                      uses pf:port-range-or-operator;
+                      description
+                        "Source port definition from range or
+                         operator.";
+                    }
                     description
-                      "Source port definition.";
+                      "Choice of source port definition using
+                       range/operator or referring to a group of 
+                       source ports.";
                   }
                   description
-                    "Choice of specifying the source port or referring to
-                     a group of source ports.";
+                    "Source port definition.";
                 }
-                choice destination-port {
-                  container destination-port-range-or-operator {
-                    uses pf:port-range-or-operator;
+                container destination-port {
+                  choice destination-port {
+                    case range-or-operator {
+                      uses pf:port-range-or-operator;
+                      description
+                        "Destination port definition from range or
+                         operator.";
+                    }
                     description
-                      "Destination port definition.";
+                      "Choice of destination port definition using
+                       range/operator or referring to a group of
+                       destination ports.";
                   }
                   description
-                    "Choice of specifying a destination port or referring
-                     to a group of destination ports.";
+                    "Destination port definition.";
                 }
                 description
                   "Rule set that matches UDP headers.";
@@ -509,8 +533,8 @@ module ietf-access-control-list {
               type if:interface-ref;
               description
                 "Egress interface. This should not be used if this ACL
-                 is attached as an egress ACL (or the value should equal
-                 the interface to which the ACL is attached).";
+                 is attached as an egress ACL (or the value should
+                 equal the interface to which the ACL is attached).";
             }
 
             leaf ingress-interface {
@@ -581,7 +605,7 @@ module ietf-access-control-list {
 
             leaf name {
               type leafref {
-                path "../../../../../../acl/name";
+                path "/access-lists/acl/name";
               }
               description
                 "Reference to the ACL name applied on ingress";
@@ -595,7 +619,7 @@ module ietf-access-control-list {
                 "List of access list entries(ACE)";
               leaf name {
                 type leafref {
-                  path "../../../../../../../acl/aces/ace/name";
+                  path "/access-lists/acl/aces/ace/name";
                 }
                 description
                   "The ace name";

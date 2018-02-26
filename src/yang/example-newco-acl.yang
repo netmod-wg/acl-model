@@ -2,12 +2,12 @@ module example-newco-acl {
 
   yang-version 1.1;
 
-  namespace "urn:newco:params:xml:ns:yang:example-newco-acl";
+  namespace "http://example.com/ns/example-newco-acl";
 
   prefix example-newco-acl;
 
   import ietf-access-control-list {
-    prefix "ietf-acl";
+    prefix "acl";
   }
 
   organization
@@ -27,9 +27,9 @@ module example-newco-acl {
        YANG Data  Model";
   }
 
-  augment "/ietf-acl:access-lists/ietf-acl:acl/" +
-          "ietf-acl:aces/ietf-acl:ace/" +
-          "ietf-acl:matches" {
+  augment "/acl:access-lists/acl:acl/" +
+          "acl:aces/acl:ace/" +
+          "acl:matches" {
     description "Newco proprietary simple filter matches";
     choice protocol-payload-choice {
       description "Newco proprietary payload match condition";
@@ -50,9 +50,9 @@ module example-newco-acl {
     }
   }
 
-  augment "/ietf-acl:access-lists/ietf-acl:acl/" +
-          "ietf-acl:aces/ietf-acl:ace/" +
-          "ietf-acl:actions" {
+  augment "/acl:access-lists/acl:acl/" +
+          "acl:aces/acl:ace/" +
+          "acl:actions" {
     description "Newco proprietary simple filter actions";
     choice action {
       description "";
@@ -71,28 +71,31 @@ module example-newco-acl {
         }
       }
       case hiearchical-policer {
-        description "Name of hierarchical policer to use to
-                     rate-limit traffic";
         leaf hierarchitacl-policer {
           type string;
-          description "Name of the hierarchical policer.";
+          description
+            "Name of the hierarchical policer.";
         }
+        description
+          "Name of hierarchical policer to use to
+           rate-limit traffic";
       }
     }
   }
 
-  augment "/ietf-acl:access-lists/ietf-acl:acl" +
-          "/ietf-acl:aces/ietf-acl:ace/" +
-          "ietf-acl:actions" {
-    description "Newco proprietary default action";
+  augment "/acl:access-lists/acl:acl" +
+          "/acl:aces/acl:ace/" +
+          "acl:actions" {
     leaf default-action {
+      type identityref {
+        base acl:forwarding-action;
+      }
+      default acl:drop;
       description
         "Actions that occur if no ace is matched.";
-      type identityref {
-        base ietf-acl:forwarding-action;
-      }
-      default ietf-acl:drop;
     }
+    description
+      "Newco proprietary default action";
   }
 
   grouping match-simple-payload-protocol-value {

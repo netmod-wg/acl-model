@@ -14,7 +14,7 @@
 <!-- Change to "yes" if someone has disclosed IPR for the draft -->
 <?rfc compact="yes"?>
 <!-- This defines the specific filename and version number of your draft (and inserts the appropriate IETF boilerplate -->
-<rfc category="std" docName="draft-ietf-netmod-acl-model-16" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-netmod-acl-model-17" ipr="trust200902">
   <front>
     <title abbrev="ACL YANG model">Network Access Control List (ACL) YANG Data
     Model</title>
@@ -45,7 +45,7 @@
     </author>
 
     <author fullname="Dana Blair" initials="D." surname="Blair">
-      <organization>Cisco Systems, INc</organization>
+      <organization>Cisco Systems, Inc.</organization>
 
       <address>
         <postal>
@@ -70,34 +70,17 @@
       </address>
     </author>
 
-    <date day="2" month="February" year="2018"/>
+    <date day="28" month="February" year="2018"/>
 
     <area>Operations and Management Area</area>
 
     <workgroup>NETMOD WG</workgroup>
 
     <abstract>
-      <t>This document describes a data model of Access Control List (ACL)
-      basic building blocks.</t>
-
-      <t>Editorial Note (To be removed by RFC Editor)</t>
-
-      <t>This draft contains many placeholder values that need to be replaced
-      with finalized values at the time of publication. This note summarizes
-      all of the substitutions that are needed. Please note that no other RFC
-      Editor instructions are specified anywhere else in this document.</t>
-
-      <t>Artwork in this document contains shorthand references to drafts in
-      progress. Please apply the following replacements</t>
-
-      <t><list style="symbols">
-          <t>"XXXX" --&gt; the assigned RFC value for this draft both in this
-          draft and in the YANG models under the revision statement.</t>
-
-          <t>Revision date in model needs to get updated with the date the
-          draft gets approved. The date also needs to get reflected on the
-          line with &lt;CODE BEGINS&gt;.</t>
-        </list></t>
+      <t>This document defines a data model for Access Control List (ACL). ACL
+      is a ordered-by-user set of rules, used to configure the forwarding
+      behavior in device. Each rule is used to find a match on a packet, and
+      define actions that will be performed on the packet.</t>
     </abstract>
   </front>
 
@@ -145,6 +128,28 @@
       attachment point other than an interface, vendors would have to augment
       the ACL YANG model.</t>
 
+      <t>Editorial Note (To be removed by RFC Editor)</t>
+
+      <t>This draft contains many placeholder values that need to be replaced
+      with finalized values at the time of publication. This note summarizes
+      all of the substitutions that are needed. Please note that no other RFC
+      Editor instructions are specified anywhere else in this document.</t>
+
+      <t>Artwork in this document contains shorthand references to drafts in
+      progress. Please apply the following replacements</t>
+
+      <t><list style="symbols">
+          <t>"XXXX" --&gt; the assigned RFC value for this draft both in this
+          draft and in the YANG models under the revision statement.</t>
+
+          <t>Revision date in model, in the format YYYY-MM-DD needs to get
+          updated with the date the draft gets approved. The date also needs
+          to get reflected on the line with &lt;CODE BEGINS&gt;.</t>
+
+          <t>Replace "I-D.ietf-netmod-yang-tree-diagrams" with the assigned
+          RFC number.</t>
+        </list></t>
+
       <section title="Definitions and Acronyms">
         <t>ACE: Access Control Entry</t>
 
@@ -163,6 +168,16 @@
         <t>MAC: Media Access Control</t>
 
         <t>TCP: Transmission Control Protocol</t>
+
+        <t>UDP: User Datagram Protocol</t>
+      </section>
+
+      <section title="Terminology">
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+        "OPTIONAL" in this document are to be interpreted as described in
+        <xref target="RFC2119">BCP 14 </xref> <xref target="RFC8174"/> when,
+        and only when, they appear in all capitals, as shown here.</t>
       </section>
 
       <!-- definitions -->
@@ -236,7 +251,7 @@
         for.</t>
 
         <t>If there is a need to define new "matches" choice, such as <xref
-        target="RFC5101">IPFIX</xref>, the container "matches" can be
+        target="RFC7011">IPFIX</xref>, the container "matches" can be
         augmented.</t>
 
         <t>For a reference to the annotations used in the diagram below, see
@@ -315,15 +330,13 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-access-control-list@YYYY-MM-DD.yang)
         <t>This module imports definitions from <xref target="RFC6991">Common
         YANG Data Types</xref> and references <xref
         target="RFC0791">IP</xref>, <xref target="RFC0792">ICMP</xref>, <xref
-        target="RFC2460">IPv6</xref>, <xref target="RFC2474">Definition of the
-        Differentiated Services Field in the IPv4 and IPv6 Headers</xref>,
-        <xref target="RFC3168">The Addition of Explicit Congestion
-        Notification (ECN) to IP</xref>, <xref target="RFC3540">Robust
-        Explicit Congestion Notification Signaling with Nonces</xref>, <xref
+        target="RFC2474">Definition of the Differentiated Services Field in
+        the IPv4 and IPv6 Headers</xref>, <xref target="RFC3168">The Addition
+        of Explicit Congestion Notification (ECN) to IP</xref>, , <xref
         target="RFC4007">IPv6 Scoped Address Architecture</xref>, <xref
         target="RFC4291">IPv6 Addressing Architecture</xref>, <xref
         target="RFC5952">A Recommendation for IPv6 Address Text
-        Representation</xref>.</t>
+        Representation</xref>, <xref target="RFC8200">IPv6</xref>.</t>
 
         <figure>
           <artwork><![CDATA[
@@ -338,14 +351,14 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-packet-fields@YYYY-MM-DD.yang)
       <!--pktheaders-->
 
       <section anchor="example" title="An ACL Example">
-        <t>Requirement: Deny tcp traffic from 10.10.10.1/24, destined to
-        11.11.11.1/24.</t>
+        <t>Requirement: Deny tcp traffic from 192.0.2.1/24, destined to
+        198.51.100.1/24.</t>
 
         <t>Here is the acl configuration xml for this Access Control List:</t>
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml)
 
 ]]></artwork>
         </figure>
@@ -355,7 +368,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
         <figure>
           <artwork><![CDATA[
       access-list ipv4 sample-ipv4-acl
-      deny tcp 10.10.10.1/24 11.11.11.1/24
+      deny tcp 192.0.2.1/24 198.51.100.1/24
 ]]></artwork>
         </figure>
       </section>
@@ -370,14 +383,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
 
         <figure>
           <artwork><![CDATA[
-     <source-port-range-or-operator>
-       <port-range-or-operator>
-         <range>
-           <lower-port>16384</lower-port>
-           <upper-port>16387</upper-port>
-         </range>
-       </port-range-or-operator>
-     <source-port-range-or-operator>
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.1.xml)
   ]]></artwork>
         </figure>
 
@@ -387,14 +393,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
 
         <figure>
           <artwork><![CDATA[
-      <source-port-range-or-operator>
-        <port-range-or-operator>
-          <range>
-            <lower-port>16384</lower-port>
-            <upper-port>65535</upper-port>
-          </range>
-        </port-range-or-operator>
-      </source-port-range-or-operator>
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.2.xml)
  ]]></artwork>
         </figure>
 
@@ -405,14 +404,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
 
         <figure>
           <artwork><![CDATA[
-      <source-port-range-or-operator>
-        <port-range-or-operator>
-          <operator>
-            <operator>eq</operator>
-            <port>21</port>
-          </operator>
-        </port-range-or-operator>
-      </source-port-range-or-operator>
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.3.xml)
    ]]></artwork>
         </figure>
 
@@ -423,14 +415,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
 
         <figure>
           <artwork><![CDATA[
-      <source-port-range-or-operator>
-        <port-range-or-operator>
-          <operator>
-            <operator>neq</operator>
-            <port>21</port>
-          </operator>
-        </port-range-or-operator>
-      </source-port-range-or-operator>
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.4.xml)
 
 ]]></artwork>
         </figure>
@@ -438,9 +423,9 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
     </section>
 
     <section anchor="security" title="Security Considerations">
-      <t>The YANG module specified in this document is defines a schema for
-      data that is designed to be accessed via network management protocol
-      such as <xref target="RFC6241">NETCONF </xref> or <xref
+      <t>The YANG module specified in this document defines a schema for data
+      that is designed to be accessed via network management protocol such as
+      <xref target="RFC6241">NETCONF </xref> or <xref
       target="RFC8040">RESTCONF</xref>. The lowest NETCONF layer is the secure
       transport layer and the mandatory-to-implement secure transport is <xref
       target="RFC6242">SSH</xref>. The lowest RESTCONF layer is HTTPS, and the
@@ -462,36 +447,57 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
       <t>These are the subtrees and data nodes and their
       sensitivity/vulnerability:</t>
 
-      <t>/access-lists/acl/aces: This list specifies all the configured access
-      control entries on the device. Unauthorized write access to this list
-      can allow intruders to access and control the system. Unauthorized read
-      access to this list can allow intruders to spoof packets with authorized
-      addresses thereby compromising the system.</t>
+      <t><list style="hanging">
+          <t>/access-lists/acl/aces: This list specifies all the configured
+          access control entries on the device. Unauthorized write access to
+          this list can allow intruders to access and control the system.
+          Unauthorized read access to this list can allow intruders to spoof
+          packets with authorized addresses thereby compromising the
+          system.</t>
+        </list></t>
     </section>
 
     <section anchor="iana" title="IANA Considerations">
-      <t>This document registers a URI in the <xref target="RFC3688">IETF XML
-      registry </xref>. Following the format in RFC 3688, the following
-      registration is requested to be made:</t>
+      <t>This document registers three URIs and three YANG module.</t>
 
-      <t>URI: urn:ietf:params:xml:ns:yang:ietf-access-control-list</t>
+      <section title="URI Registration">
+        <t>This document registers three URI in the <xref
+        target="RFC3688">IETF XML registry </xref>. Following the format in
+        RFC 3688, the following registration is requested to be made:</t>
 
-      <t>URI: urn:ietf:params:xml:ns:yang:ietf-packet-fields</t>
+        <t><figure>
+            <artwork><![CDATA[URI: urn:ietf:params:xml:ns:yang:ietf-access-control-list
+URI: urn:ietf:params:xml:ns:yang:ietf-packet-fields
+URI: urn:ietf:params:xml:ns:yang:ietf-ethertypes
+]]></artwork>
+          </figure></t>
 
-      <t>Registrant Contact: The IESG.</t>
+        <t>Registrant Contact: The IESG.</t>
 
-      <t>XML: N/A, the requested URI is an XML namespace.</t>
+        <t>XML: N/A, the requested URI is an XML namespace.</t>
+      </section>
 
-      <t>This document registers a YANG module in the YANG Module Names
-      registry <xref target="RFC6020">YANG</xref>.</t>
+      <section title="YANG Module Name Registration">
+        <t>This document registers three YANG module in the YANG Module Names
+        registry <xref target="RFC6020">YANG</xref>.</t>
 
-      <t>name: ietf-access-control-list namespace:
-      urn:ietf:params:xml:ns:yang:ietf-access-control-list prefix: ietf-acl
-      reference: RFC XXXX</t>
+        <t><figure>
+            <artwork><![CDATA[name: ietf-access-control-list
+namespace: urn:ietf:params:xml:ns:yang:ietf-access-control-list
+prefix: acl
+reference: RFC XXXX
 
-      <t>name: ietf-packet-fields namespace:
-      urn:ietf:params:xml:ns:yang:ietf-packet-fields prefix:
-      ietf-packet-fields reference: RFC XXXX</t>
+name: ietf-packet-fields
+namespace: urn:ietf:params:xml:ns:yang:ietf-packet-fields
+prefix: packet-fields
+reference: RFC XXXX
+
+name: ietf-ethertypes
+namespace: urn:ietf:params:xml:ns:yang:ietf-ethertypes
+prefix: ethertypes
+reference: RFC XXXX]]></artwork>
+          </figure></t>
+      </section>
     </section>
 
     <section anchor="ack" title="Acknowledgements">
@@ -525,13 +531,11 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
 
       <?rfc include='reference.RFC.0792'?>
 
-      <?rfc include='reference.RFC.2460'?>
+      <?rfc include='reference.RFC.2119'?>
 
       <?rfc include='reference.RFC.2474'?>
 
       <?rfc include='reference.RFC.3168'?>
-
-      <?rfc include='reference.RFC.3540'?>
 
       <?rfc include='reference.RFC.3688'?>
 
@@ -558,10 +562,14 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
       <?rfc include='reference.RFC.7950'?>
 
       <?rfc include='reference.RFC.8040'?>
+
+      <?rfc include='reference.RFC.8174'?>
+
+      <?rfc include='reference.RFC.8200'?>
     </references>
 
     <references title="Informative References">
-      <?rfc include='reference.RFC.5101'?>
+      <?rfc include='reference.RFC.7011'?>
 
       <?rfc include='reference.I-D.ietf-netmod-yang-tree-diagrams'?>
     </references>
@@ -573,10 +581,17 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
         <t>Module "example-newco-acl" is an example of company proprietary
         model that augments "ietf-acl" module. It shows how to use 'augment'
         with an XPath expression to add additional match criteria, action
-        criteria, and default actions when no ACE matches found. All these are
-        company proprietary extensions or system feature extensions.
-        "example-newco-acl" is just an example and it is expected from vendors
-        to create their own proprietary models.</t>
+        criteria, and default actions when no ACE matches are found. All these
+        are company proprietary extensions or system feature extensions.
+        "example-newco-acl" is just an example and it is expected that vendors
+        will create their own proprietary models.</t>
+
+        <figure>
+          <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang)
+
+]]></artwork>
+        </figure>
 
         <t>The following figure is the tree structure of example-newco-acl. In
         this example,
@@ -592,19 +607,9 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration.xml)
         <figure>
           <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD-tree.txt)  
-          ]]></artwork>
-        </figure>
-
-        <figure>
-          <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang)  
 
 ]]></artwork>
         </figure>
-
-        <t>Draft authors expect that different vendors will provide their own
-        yang models as in the example above, which is the augmentation of the
-        base model</t>
       </section>
 
       <section title="Linux nftables">
@@ -627,7 +632,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang)
       nft add table ip filter
       nft add chain filter input
       nft add rule ip filter input ip protocol tcp ip saddr \
-          10.10.10.1/24 drop
+          192.0.2.1/24 drop
       ]]></artwork>
         </figure>
 
@@ -637,7 +642,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang)
           <artwork><![CDATA[
       table ip filter {
         chain input {
-          ip protocol tcp ip saddr 10.10.10.1/24 drop 
+          ip protocol tcp ip saddr 192.0.2.1/24 drop
         }
       }
 

@@ -20,7 +20,7 @@ draft_type := $(suffix $(firstword $(wildcard $(draft).md $(draft).org $(draft).
 
 current_ver := $(shell git tag | grep '$(draft)-[0-9][0-9]' | tail -1 | sed -e"s/.*-//")
 ifeq "${current_ver}" ""
-next_ver ?= 16
+next_ver ?= 00
 else
 next_ver ?= $(shell printf "%.2d" $$((1$(current_ver)-99)))
 endif
@@ -59,6 +59,12 @@ $(next).xml: $(draft).xml ../src/yang/ietf-access-control-list.yang ../src/yang/
 
 	cd ../src; ./gen-trees.sh; cd ..;
 	../src/insert-figures.sh $@ > tmp; mv tmp $@
+
+	yanglint -p ../../ ../src/yang/ietf-access-control-list\@$(shell date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.3.xml
+	yanglint -p ../../ ../src/yang/ietf-access-control-list\@$(shell date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.1.xml
+	yanglint -p ../../ ../src/yang/ietf-access-control-list\@$(shell date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.2.xml
+	yanglint -p ../../ ../src/yang/ietf-access-control-list\@$(shell date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.3.xml
+	yanglint -p ../../ ../src/yang/ietf-access-control-list\@$(shell date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.4.xml
 
 .INTERMEDIATE: $(draft).xml
 %.xml: %.md
