@@ -171,7 +171,7 @@ module ietf-packet-fields {
          Length, the length of the IPv6 payload, i.e. the rest of
          the packet following the IPv6 header, in octets.";
       reference
-        "RFC 719, RFC 2460";
+        "RFC 791, RFC 2460";
     }
 
     leaf ttl {
@@ -182,7 +182,7 @@ module ietf-packet-fields {
          value zero, then the datagram must be destroyed.
 
          In IPv6, this field is known as the Hop Limit.";
-      reference "RFC 719, RFC 2460";
+      reference "RFC 791, RFC 2460";
     }
 
     leaf protocol {
@@ -190,7 +190,7 @@ module ietf-packet-fields {
       description
         "Internet Protocol number. Refers to the protocol of the
          payload. In IPv6, this field is known as 'next-header.";
-      reference "RFC 719, RFC 2460.";
+      reference "RFC 791, RFC 2460.";
     }
   }
 

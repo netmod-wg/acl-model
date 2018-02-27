@@ -1,31 +1,21 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-  <access-lists xmlns="urn:ietf:params:xml:ns:yang:\
-                       ietf-access-control-list">
-    <acl>
-      <name>sample-ipv4-acl</name>
-      <type>ipv4-acl-type</type>
-      <aces>
-        <ace>
-          <name>rule1</name>
-          <matches>
-            <l3>
-              <ipv4>
-                <protocol>tcp</protocol>
-                <destination-ipv4-network>
-                  192.0.2.1/24
-                </destination-ipv4-network>
-                <source-ipv4-network>
-                  198.51.100.1/24
-                </source-ipv4-network>
-              </ipv4>
-            </l3>
-          </matches>
-          <actions>
-            <forwarding>drop</forwarding>
-          </actions>
-        </ace>
-      </aces>
-    </acl>
-  </access-lists>
-</data>
+<access-lists xmlns="urn:ietf:params:xml:ns:yang:ietf-access-control-list">
+  <acl>
+    <name>sample-ipv4-acl</name>
+    <type>ipv4-acl-type</type>
+    <aces>
+      <ace>
+        <name>rule1</name>
+        <matches>
+          <ipv4>
+            <protocol>6</protocol>
+            <destination-ipv4-network>192.0.2.0/24</destination-ipv4-network>
+            <source-ipv4-network>198.51.100.0/24</source-ipv4-network>
+          </ipv4>
+        </matches>
+        <actions>
+          <forwarding>drop</forwarding>
+        </actions>
+      </ace>
+    </aces>
+  </acl>
+</access-lists>

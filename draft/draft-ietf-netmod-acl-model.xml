@@ -351,8 +351,8 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-packet-fields@YYYY-MM-DD.yang)
       <!--pktheaders-->
 
       <section anchor="example" title="An ACL Example">
-        <t>Requirement: Deny tcp traffic from 192.0.2.1/24, destined to
-        198.51.100.1/24.</t>
+        <t>Requirement: Deny tcp traffic from 192.0.2.0/24, destined to
+        198.51.100.0/24.</t>
 
         <t>Here is the acl configuration xml for this Access Control List:</t>
 
@@ -368,7 +368,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml)
         <figure>
           <artwork><![CDATA[
       access-list ipv4 sample-ipv4-acl
-      deny tcp 192.0.2.1/24 198.51.100.1/24
+      deny tcp 192.0.2.0/24 198.51.100.0/24
 ]]></artwork>
         </figure>
       </section>
@@ -379,7 +379,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml)
         upper-port are included. When only a lower-port presents, it
         represents a single port.</t>
 
-        <t>With the follow XML snippet:</t>
+        <t>With the follow XML example:</t>
 
         <figure>
           <artwork><![CDATA[
@@ -389,7 +389,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.1.xml)
 
         <t>This represents source ports 16384, 16385, 16386, and 16387.</t>
 
-        <t>With the follow XML snippet:</t>
+        <t>With the follow XML example:</t>
 
         <figure>
           <artwork><![CDATA[
@@ -400,7 +400,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.2.xml)
         <t>This represents source ports greater than or equal to 16384 and
         less than equal to 65535.</t>
 
-        <t>With the follow XML snippet:</t>
+        <t>With the follow XML example:</t>
 
         <figure>
           <artwork><![CDATA[
@@ -410,7 +410,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.3.xml)
 
         <t>This represents port 21.</t>
 
-        <t>With the following XML snippet, the configuration is specifying all
+        <t>With the following XML example, the configuration is specifying all
         ports that are not equal to 21.</t>
 
         <figure>

@@ -1,32 +1,23 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-  <access-lists xmlns="urn:ietf:params:xml:ns:yang:\
-                       ietf-access-control-list">
-    <acl>
-      <name>sample-ipv4-acl</name>
-      <type>ipv4-acl-type</type>
-      <aces>
-        <ace>
-          <name>rule1</name>
-          <matches>
-            <l4>
-              <tcp>
-                <source-port>
-                  <source-port>
-                    <port-range-or-operator>
-                      <operator>neq</operator>
-                      <port>21</port>
-                    </port-range-or-operator>
-                  </source-port>
-                </source-port>
-              </tcp>
-            </l4>
-          </matches>
-          <actions>
-            <forwarding>drop</forwarding>
-          </actions>
-        </ace>
-      </aces>
-    </acl>
-  </access-lists>
-</data>
+<access-lists xmlns="urn:ietf:params:xml:ns:yang:ietf-access-control-list">
+  <acl>
+    <name>sample-ipv4-acl</name>
+    <type>ipv4-acl-type</type>
+    <aces>
+      <ace>
+        <name>rule1</name>
+        <matches>
+          <tcp>
+            <source-port>
+              <operator>neq</operator>
+              <port>21</port>
+            </source-port>
+          </tcp>
+        </matches>
+        <actions>
+          <forwarding>drop</forwarding>
+        </actions>
+      </ace>
+    </aces>
+  </acl>
+</access-lists>
+
