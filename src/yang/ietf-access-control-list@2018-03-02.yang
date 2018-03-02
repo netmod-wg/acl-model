@@ -55,7 +55,7 @@ module ietf-access-control-list {
      This version of this YANG module is part of RFC XXXX; see
      the RFC itself for full legal notices.";
 
-  revision YYYY-MM-DD {
+  revision 2018-03-02 {
     description
       "Initial version.";
     reference

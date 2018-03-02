@@ -70,7 +70,7 @@
       </address>
     </author>
 
-    <date day="28" month="February" year="2018"/>
+    <date day="3" month="March" year="2018"/>
 
     <area>Operations and Management Area</area>
 
@@ -297,8 +297,9 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-access-control-list@YYYY-MM-DD-tree.txt)
         "interface".</t>
 
         <t>This module imports definitions from <xref target="RFC6991">Common
-        YANG Data Types</xref>, and <xref target="RFC7223">A YANG Data Model
-        for Interface Management</xref>.</t>
+        YANG Data Types</xref>, and <xref
+        target="I-D.ietf-netmod-rfc7223bis">A YANG Data Model for Interface
+        Management</xref>.</t>
 
         <figure>
           <artwork><![CDATA[
@@ -557,7 +558,7 @@ reference: RFC XXXX]]></artwork>
 
       <?rfc include='reference.RFC.6991'?>
 
-      <?rfc include='reference.RFC.7223'?>
+      <?rfc include='reference.I-D.ietf-netmod-rfc7223bis'?>
 
       <?rfc include='reference.RFC.7950'?>
 

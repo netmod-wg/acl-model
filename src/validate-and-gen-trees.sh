@@ -29,7 +29,7 @@ rm yang/*-tree.txt.tmp
 echo "Validating examples"
 
 echo "Validating Section 4.3"
-response=`yanglint -s -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.3.xml`
+response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.3.xml`
 if [ $? -ne 0 ]; then
   printf "failed (error code: $?)\n"
   printf "$response\n\n"
@@ -38,7 +38,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Validating Section 4.4.1"
-response=`yanglint -s -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.1.xml`
+response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.1.xml`
 if [ $? -ne 0 ]; then
   printf "failed (error code: $?)\n"
   printf "$response\n\n"
@@ -47,7 +47,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Validating Section 4.4.2"
-response=`yanglint -s -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.2.xml`
+response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.2.xml`
 if [ $? -ne 0 ]; then
   printf "failed (error code: $?)\n"
   printf "$response\n\n"
@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Validating Section 4.4.3"
-response=`yanglint -s -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.3.xml`
+response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.3.xml`
 if [ $? -ne 0 ]; then
   printf "failed (error code: $?)\n"
   printf "$response\n\n"
@@ -65,7 +65,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Validating Section 4.4.4"
-response=`yanglint -s -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.4.xml`
+response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.4.xml`
 if [ $? -ne 0 ]; then
   printf "failed (error code: $?)\n"
   printf "$response\n\n"
