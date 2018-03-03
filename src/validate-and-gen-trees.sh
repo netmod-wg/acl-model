@@ -13,6 +13,7 @@ do
         printf "$name.yang failed pyang validation\n"
         printf "$response\n\n"
         echo
+	rm yang/*-tree.txt.tmp
         exit 1
     fi
     fold -w 71 $name-tree.txt.tmp > $name-tree.txt
