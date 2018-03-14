@@ -14,7 +14,7 @@
 <!-- Change to "yes" if someone has disclosed IPR for the draft -->
 <?rfc compact="yes"?>
 <!-- This defines the specific filename and version number of your draft (and inserts the appropriate IETF boilerplate -->
-<rfc category="std" docName="draft-ietf-netmod-acl-model-17" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-netmod-acl-model-18" ipr="trust200902">
   <front>
     <title abbrev="ACL YANG model">Network Access Control List (ACL) YANG Data
     Model</title>
@@ -70,15 +70,15 @@
       </address>
     </author>
 
-    <date day="3" month="March" year="2018"/>
+    <date day="19" month="March" year="2018"/>
 
     <area>Operations and Management Area</area>
 
     <workgroup>NETMOD WG</workgroup>
 
     <abstract>
-      <t>This document defines a data model for Access Control List (ACL). ACL
-      is a ordered-by-user set of rules, used to configure the forwarding
+      <t>This document defines a data model for Access Control List (ACL). An
+      ACL is a user-ordered set of rules, used to configure the forwarding
       behavior in device. Each rule is used to find a match on a packet, and
       define actions that will be performed on the packet.</t>
     </abstract>
@@ -90,21 +90,21 @@
       configure device forwarding behavior. It is used in many networking
       technologies such as Policy Based Routing, Firewalls etc.</t>
 
-      <t>An ACL is an ordered-by-user set of rules that is used to filter
+      <t>An ACL is an user-ordered set of rules, that is used to filter
       traffic on a networking device. Each rule is represented by an Access
       Control Entry (ACE).</t>
 
       <t>Each ACE has a group of match criteria and a group of action
       criteria.</t>
 
-      <t>The match criteria consist of a tuple of packet header match criteria
-      and can have metadata match criteria as well.</t>
+      <t>The match criteria allows for definition of packet headers and
+      metadata, all of which must be true for the match to occur.</t>
 
       <t><list style="symbols">
           <t>Packet header matches apply to fields visible in the packet such
-          as address or class of service or port numbers.</t>
+          as address or Class of Service (CoS) or port numbers.</t>
 
-          <t>In case vendor supports it, metadata matches apply to fields
+          <t>In case a vendor supports it, metadata matches apply to fields
           associated with the packet but not in the packet header such as
           input interface or overall packet length</t>
         </list></t>
@@ -112,8 +112,8 @@
       <t>The actions specify what to do with the packet when the matching
       criteria is met. These actions are any operations that would apply to
       the packet, such as counting, policing, or simply forwarding. The list
-      of potential actions is endless depending on the capabilities of the
-      networked devices.</t>
+      of potential actions is unbounded depending on the capabilities of the
+      networking devices.</t>
 
       <t>Access Control List is also widely knowns as ACL (pronounce as [ak-uh
       l]) or Access List. In this document, Access Control List, ACL and
@@ -155,6 +155,8 @@
 
         <t>ACL: Access Control List</t>
 
+        <t>CoS: Class of Service</t>
+
         <t>DSCP: Differentiated Services Code Point</t>
 
         <t>ICMP: Internet Control Message Protocol</t>
@@ -181,6 +183,13 @@
       </section>
 
       <!-- definitions -->
+
+      <section title="Tree Diagram">
+        <t>For a reference to the annotations used in tree diagrams included
+        in this draft, please see <xref
+        target="I-D.ietf-netmod-yang-tree-diagrams">YANG Tree
+        Diagrams</xref>.</t>
+      </section>
     </section>
 
     <!-- intro -->
@@ -201,31 +210,29 @@
     <section anchor="design" title="Understanding ACL's Filters and Actions">
       <t>Although different vendors have different ACL data models, there is a
       common understanding of what Access Control List (ACL) is. A network
-      system usually have a list of ACLs, and each ACL contains an ordered
-      list of rules, also known as Access Control Entries (ACE). Each ACE has
-      a group of match criteria and a group of action criteria. The match
-      criteria consist of packet header matching. It as also possible for ACE
-      to match on metadata, if supported by the vendor. Packet header matching
-      applies to fields visible in the packet such as address or class of
-      service or port numbers. Metadata matching applies to fields associated
-      with the packet, but not in the packet header such as input interface,
-      packet length, or source or destination prefix length. The actions can
-      be any sort of operation from logging to rate limiting or dropping to
-      simply forwarding. Actions on the first matching ACE are applied with no
-      processing of subsequent ACEs.</t>
+      system usually has a list of ACLs, and each ACL contains an ordered list
+      of rules, also known as Access Control Entries (ACE). Each ACE has a
+      group of match criteria and a group of action criteria. The match
+      criteria allows for definition of packet headers or metadata, if
+      supported by the vendor. Packet header matching applies to fields
+      visible in the packet such as address or CoS or port numbers. Metadata
+      matching applies to fields associated with the packet, but not in the
+      packet header such as input interface, packet length, or source or
+      destination prefix length. The actions can be any sort of operation from
+      logging to rate limiting or dropping to simply forwarding. Actions on
+      the first matching ACE are applied with no processing of subsequent
+      ACEs.</t>
 
       <t>The model also includes a container to hold overall operational state
       for each ACL and operational state for each ACE. One ACL can be applied
-      to multiple targets within the device, such as interfaces of a networked
+      to multiple targets within the device, such as interface of a networking
       device, applications or features running in the device, etc. When
-      applied to interfaces of a networked device, the ACL is applied in a
-      direction which indicates if it should be applied to packet entering
-      (input) or leaving the device (output). An example in the appendix shows
-      how to express it in YANG model.</t>
+      applied to interfaces of a networked device, distinct ACLs are defined
+      for the ingress (input) or egress (output) interface.</t>
 
       <t>This draft tries to address the commonalities between all vendors and
       create a common model, which can be augmented with proprietary models.
-      The base model is simple and with this design we hope to achieve enough
+      The base model is simple in design, and we hope to achieve enough
       flexibility for each vendor to extend the base model.</t>
 
       <t>The use of feature statements in the model allows vendors to
@@ -246,17 +253,13 @@
         imports the second module, "ietf-packet-fields". The match container
         in "ietf-access-control-list" uses groupings in "ietf-packet-fields"
         to specify match fields such as port numbers or protocol. The
-        combination of if-feature checks and must statements allow for the
+        combination of 'if-feature' checks and 'must' statements allow for the
         selection of relevant match fields that a user can define rules
         for.</t>
 
-        <t>If there is a need to define new "matches" choice, such as <xref
+        <t>If there is a need to define a new "matches" choice, such as <xref
         target="RFC7011">IPFIX</xref>, the container "matches" can be
         augmented.</t>
-
-        <t>For a reference to the annotations used in the diagram below, see
-        <xref target="I-D.ietf-netmod-yang-tree-diagrams">YANG Tree
-        Diagrams</xref>.</t>
 
         <figure>
           <artwork><![CDATA[
@@ -268,12 +271,11 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-access-control-list@YYYY-MM-DD-tree.txt)
 
     <section anchor="yangmodel" title="ACL YANG Models">
       <section anchor="ietfacl" title="IETF Access Control List module">
-        <t>"ietf-access-control-list" is the standard top level module for
-        access lists. The "access-lists" container stores a list of "acl".
-        Each "acl" has information identifying the access list by a name
-        ("name") and a list ("aces") of rules associated with the "name". Each
-        of the entries in the list ("aces"), indexed by the string "name", has
-        containers defining "matches" and "actions".</t>
+        <t>"ietf-access-control-list"module defines the "acls" container that
+        has a list of "acl". Each "acl" has information identifying the access
+        list by a name ("name") and a list ("aces") of rules associated with
+        the "name". Each of the entries in the list ("aces"), indexed by the
+        string "name", has containers defining "matches" and "actions".</t>
 
         <t>The model defines several ACL types and actions in the form of
         identities and features. Features are used by implementors to select
@@ -287,9 +289,9 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-access-control-list@YYYY-MM-DD-tree.txt)
         allow for selection of one header within each of "l2", "l3", or "l4"
         headers. The "actions" define behavior to undertake once a "match" has
         been identified. In addition to permit and deny for actions, a logging
-        option allows for a match to be logged that can be used to determine
-        which rule was matched upon. The model also defines the ability for
-        ACL's to be attached to a particular interface.</t>
+        option allows for a match to be logged that can later be used to
+        determine which rule was matched upon. The model also defines the
+        ability for ACLs to be attached to a particular interface.</t>
 
         <t>Statistics in the ACL can be collected for an "ace" or for an
         "interface". The feature statements defined for statistics can be used
@@ -323,10 +325,10 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-access-control-list@YYYY-MM-DD.yang)
         above layer 2 or layer 3 fields.</t>
 
         <t>Since the number of match criteria is very large, the base draft
-        does not include these directly but references them by "uses" to keep
-        the base module simple. In case more match conditions are needed,
-        those can be added by augmenting choices within container "matches" in
-        ietf-access-control-list.yang model.</t>
+        does not include these directly but references them by 'uses'
+        statement to keep the base module simple. In case more match
+        conditions are needed, those can be added by augmenting choices within
+        container "matches" in ietf-access-control-list.yang model.</t>
 
         <t>This module imports definitions from <xref target="RFC6991">Common
         YANG Data Types</xref> and references <xref
@@ -359,7 +361,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-packet-fields@YYYY-MM-DD.yang)
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml,68)
 
 ]]></artwork>
         </figure>
@@ -374,49 +376,46 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml)
         </figure>
       </section>
 
-      <section anchor="portrange" title="Port Range Usage Example">
+      <section anchor="portrange" title="Port Range Usage and Other Examples">
         <t>When a lower-port and an upper-port are both present, it represents
         a range between lower-port and upper-port with both the lower-port and
-        upper-port are included. When only a lower-port presents, it
-        represents a single port.</t>
+        upper-port included. When only a port is present, it represents a
+        port, with the operator specifying the range.</t>
 
-        <t>With the follow XML example:</t>
+        <t>The following XML example represents a configuration where traffic
+        to source ports 16384, 16385, 16386, and 16387 is dropped.</t>
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.1.xml)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.1.xml,68)
   ]]></artwork>
         </figure>
 
-        <t>This represents source ports 16384, 16385, 16386, and 16387.</t>
-
-        <t>With the follow XML example:</t>
+        <t>The following XML example represents a configuration where all ping
+        echo requests are dropped.</t>
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.2.xml)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.2.xml,68)
  ]]></artwork>
         </figure>
 
-        <t>This represents source ports greater than or equal to 16384 and
-        less than equal to 65535.</t>
-
-        <t>With the follow XML example:</t>
+        <t>The following XML example represents a configuration of a single
+        port, port 21 that accepts traffic.</t>
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.3.xml)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.3.xml,68)
    ]]></artwork>
         </figure>
 
-        <t>This represents port 21.</t>
-
-        <t>With the following XML example, the configuration is specifying all
-        ports that are not equal to 21.</t>
+        <t>The following XML example represents a configuration specifying all
+        ports that are not equal to 21, that will drop packets destined for
+        those ports.</t>
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.4.xml)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.4.xml,68)
 
 ]]></artwork>
         </figure>
@@ -449,9 +448,9 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.4.xml)
       sensitivity/vulnerability:</t>
 
       <t><list style="hanging">
-          <t>/access-lists/acl/aces: This list specifies all the configured
-          access control entries on the device. Unauthorized write access to
-          this list can allow intruders to access and control the system.
+          <t>/acls/acl/aces: This list specifies all the configured access
+          control entries on the device. Unauthorized write access to this
+          list can allow intruders to access and control the system.
           Unauthorized read access to this list can allow intruders to spoof
           packets with authorized addresses thereby compromising the
           system.</t>
@@ -459,10 +458,10 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.4.xml)
     </section>
 
     <section anchor="iana" title="IANA Considerations">
-      <t>This document registers three URIs and three YANG module.</t>
+      <t>This document registers three URIs and three YANG modules.</t>
 
       <section title="URI Registration">
-        <t>This document registers three URI in the <xref
+        <t>This document registers three URIs in the <xref
         target="RFC3688">IETF XML registry </xref>. Following the format in
         RFC 3688, the following registration is requested to be made:</t>
 
@@ -589,25 +588,25 @@ reference: RFC XXXX]]></artwork>
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang)
+INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang,68)
 
 ]]></artwork>
         </figure>
 
-        <t>The following figure is the tree structure of example-newco-acl. In
+        <t>The following figure is the tree diagram of example-newco-acl. In
         this example,
-        /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:matches
+        /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:matches
         are augmented with two new choices, protocol-payload-choice and
         metadata. The protocol-payload-choice uses a grouping with an
         enumeration of all supported protocol values. Metadata matches apply
         to fields associated with the packet but not in the packet header such
-        as overall packet length. In other example,
-        /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:actions
-        are augmented with new choice of actions.</t>
+        as overall packet length. In another example,
+        /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:actions
+        are augmented with a new choice of actions.</t>
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD-tree.txt)  
+INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD-tree.txt,68)
 
 ]]></artwork>
         </figure>

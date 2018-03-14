@@ -69,6 +69,7 @@ $(next).xml: $(draft).xml ../src/yang/ietf-access-control-list.yang ../src/yang/
 
 %.txt: %.xml
 	$(xml2rfc) $< -o $@ --text
+	$(idnits) $@
 
 ifeq "$(shell uname -s 2>/dev/null)" "Darwin"
 sed_i := sed -i ''

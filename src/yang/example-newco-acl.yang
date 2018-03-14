@@ -27,7 +27,7 @@ module example-newco-acl {
        YANG Data  Model";
   }
 
-  augment "/acl:access-lists/acl:acl/" +
+  augment "/acl:acls/acl:acl/" +
           "acl:aces/acl:ace/" +
           "acl:matches" {
     description "Newco proprietary simple filter matches";
@@ -50,7 +50,7 @@ module example-newco-acl {
     }
   }
 
-  augment "/acl:access-lists/acl:acl/" +
+  augment "/acl:acls/acl:acl/" +
           "acl:aces/acl:ace/" +
           "acl:actions" {
     description "Newco proprietary simple filter actions";
@@ -83,7 +83,7 @@ module example-newco-acl {
     }
   }
 
-  augment "/acl:access-lists/acl:acl" +
+  augment "/acl:acls/acl:acl" +
           "/acl:aces/acl:ace/" +
           "acl:actions" {
     leaf default-action {
