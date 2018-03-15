@@ -358,12 +358,12 @@ module ietf-access-control-list {
       key "name";
       description
         "An Access Control List (ACL) is an ordered list of
-         Access List Entries (ACE). Each Access Control Entry has a
+         Access Control Entries (ACE). Each ACE has a
          list of match criteria and a list of actions.
          Since there are several kinds of Access Control Lists
          implemented with different attributes for
          different vendors, this model accommodates customizing 
-         Access Control Lists for each kind and for each vendor.";
+         Access Control Lists for each kind and, for each vendor.";
       leaf name {
         type string {
           length "1..64";
@@ -382,19 +382,18 @@ module ietf-access-control-list {
       }
       container aces {
         description
-          "The access-list-entries container contains
-           a list of access-list-entries (ACE).";
+          "The aces container contains one or more ace nodes.";
         list ace {
           key "name";
           ordered-by user;
           description
-            "List of access list entries (ACE)";
+            "List of Access Control Entries (ACE)";
           leaf name {
             type string {
               length "1..64";
             }
             description
-              "A unique name identifying this Access List
+              "A unique name identifying this Access Control
                Entry (ACE).";
           }
 
@@ -627,7 +626,7 @@ module ietf-access-control-list {
               key "name";
               config false;
               description
-                "List of access list entries (ACE)";
+                "List of Access Control Entries (ACE)";
               leaf name {
                 type leafref {
                   path "/acls/acl/aces/ace/name";
