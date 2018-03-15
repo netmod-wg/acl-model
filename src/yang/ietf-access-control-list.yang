@@ -369,7 +369,7 @@ module ietf-access-control-list {
           length "1..64";
         }
         description
-          "The name of access-list. A device MAY restrict the length
+          "The name of access list. A device MAY restrict the length
            and value of this name, possibly space and special
            characters are not allowed.";
       }
@@ -387,7 +387,7 @@ module ietf-access-control-list {
           key "name";
           ordered-by user;
           description
-            "List of Access Control Entries (ACE)";
+            "List of Access Control Entries (ACEs)";
           leaf name {
             type string {
               length "1..64";
@@ -626,7 +626,7 @@ module ietf-access-control-list {
               key "name";
               config false;
               description
-                "List of Access Control Entries (ACE)";
+                "List of Access Control Entries (ACEs)";
               leaf name {
                 type leafref {
                   path "/acls/acl/aces/ace/name";

@@ -271,7 +271,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-access-control-list@YYYY-MM-DD-tree.txt)
 
     <section anchor="yangmodel" title="ACL YANG Models">
       <section anchor="ietfacl" title="IETF Access Control List module">
-        <t>"ietf-access-control-list"module defines the "acls" container that
+        <t>"ietf-access-control-list" module defines the "acls" container that
         has a list of "acl". Each "acl" has information identifying the access
         list by a name ("name") and a list ("aces") of rules associated with
         the "name". Each of the entries in the list ("aces"), indexed by the
@@ -370,7 +370,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml,68)
 
         <figure>
           <artwork><![CDATA[
-      access-list ipv4 sample-ipv4-acl
+      acl ipv4 sample-ipv4-acl
       deny tcp 192.0.2.0/24 198.51.100.0/24
 ]]></artwork>
         </figure>
