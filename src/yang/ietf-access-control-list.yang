@@ -350,10 +350,10 @@ module ietf-access-control-list {
   /*
    * Configuration data nodes
    */
-  container acls {
+  container access-lists {
     description
       "This is a top level container for Access Control Lists.
-       It can have one or more Access Control List.";
+       It can have one or more acl nodes.";
     list acl {
       key "name";
       description
@@ -411,7 +411,7 @@ module ietf-access-control-list {
 
             choice l2 {
               container eth {
-                when "derived-from-or-self(/acls/acl/type, " +
+                when "derived-from-or-self(/access-lists/acl/type, " +
                      "'acl:eth-acl-type')";
                 if-feature match-on-eth;
                 uses pf:acl-eth-header-fields;
@@ -425,7 +425,7 @@ module ietf-access-control-list {
 
             choice l3 {
               container ipv4 {
-                when "derived-from-or-self(/acls/acl/type, " +
+                when "derived-from-or-self(/access-lists/acl/type, " +
                      "'acl:ipv4-acl-type')";
                 if-feature match-on-ipv4;
                 uses pf:acl-ip-header-fields;
@@ -435,7 +435,7 @@ module ietf-access-control-list {
               }
 
               container ipv6 {
-                when "derived-from-or-self(/acls/acl/type, " +
+                when "derived-from-or-self(/access-lists/acl/type, " +
                      "'acl:ipv6-acl-type')";
                 if-feature match-on-ipv6;
                 uses pf:acl-ip-header-fields;
@@ -616,7 +616,7 @@ module ietf-access-control-list {
 
             leaf name {
               type leafref {
-                path "/acls/acl/name";
+                path "/access-lists/acl/name";
               }
               description
                 "Reference to the ACL name applied on ingress";
@@ -630,7 +630,7 @@ module ietf-access-control-list {
                 "List of access list entries (ACE)";
               leaf name {
                 type leafref {
-                  path "/acls/acl/aces/ace/name";
+                  path "/access-lists/acl/aces/ace/name";
                 }
                 description
                   "The ace name";

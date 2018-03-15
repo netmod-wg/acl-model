@@ -27,7 +27,7 @@ module example-newco-acl {
        YANG Data  Model";
   }
 
-  augment "/acl:acls/acl:acl/" +
+  augment "/acl:access-lists/acl:acl/" +
           "acl:aces/acl:ace/" +
           "acl:matches" {
     description "Newco proprietary simple filter matches";
@@ -50,7 +50,7 @@ module example-newco-acl {
     }
   }
 
-  augment "/acl:acls/acl:acl/" +
+  augment "/acl:access-lists/acl:acl/" +
           "acl:aces/acl:ace/" +
           "acl:actions" {
     description "Newco proprietary simple filter actions";
@@ -83,7 +83,7 @@ module example-newco-acl {
     }
   }
 
-  augment "/acl:acls/acl:acl" +
+  augment "/acl:access-lists/acl:acl" +
           "/acl:aces/acl:ace/" +
           "acl:actions" {
     leaf default-action {
@@ -106,7 +106,9 @@ module example-newco-acl {
           description "Internet Control Message Protocol";
         }
         enum icmp6 {
-          description "Internet Control Message Protocol Version 6";
+          description 
+            "Internet Control Message Protocol 
+             Version 6";
         }
         enum range {
           description "Range of values";

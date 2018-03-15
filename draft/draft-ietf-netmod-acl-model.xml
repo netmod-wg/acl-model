@@ -271,11 +271,12 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-access-control-list@YYYY-MM-DD-tree.txt)
 
     <section anchor="yangmodel" title="ACL YANG Models">
       <section anchor="ietfacl" title="IETF Access Control List module">
-        <t>"ietf-access-control-list"module defines the "acls" container that
-        has a list of "acl". Each "acl" has information identifying the access
-        list by a name ("name") and a list ("aces") of rules associated with
-        the "name". Each of the entries in the list ("aces"), indexed by the
-        string "name", has containers defining "matches" and "actions".</t>
+        <t>"ietf-access-control-list"module defines the "access-lists"
+        container that has a list of "acl". Each "acl" has information
+        identifying the access list by a name ("name") and a list ("aces") of
+        rules associated with the "name". Each of the entries in the list
+        ("aces"), indexed by the string "name", has containers defining
+        "matches" and "actions".</t>
 
         <t>The model defines several ACL types and actions in the form of
         identities and features. Features are used by implementors to select
@@ -448,9 +449,9 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.4.xml,68)
       sensitivity/vulnerability:</t>
 
       <t><list style="hanging">
-          <t>/acls/acl/aces: This list specifies all the configured access
-          control entries on the device. Unauthorized write access to this
-          list can allow intruders to access and control the system.
+          <t>/access-lists/acl/aces: This list specifies all the configured
+          access control entries on the device. Unauthorized write access to
+          this list can allow intruders to access and control the system.
           Unauthorized read access to this list can allow intruders to spoof
           packets with authorized addresses thereby compromising the
           system.</t>
@@ -595,13 +596,13 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang,68)
 
         <t>The following figure is the tree diagram of example-newco-acl. In
         this example,
-        /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:matches
+        /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:matches
         are augmented with two new choices, protocol-payload-choice and
         metadata. The protocol-payload-choice uses a grouping with an
         enumeration of all supported protocol values. Metadata matches apply
         to fields associated with the packet but not in the packet header such
         as overall packet length. In another example,
-        /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:actions
+        /ietf-acl:access-lists/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace/ietf-acl:actions
         are augmented with a new choice of actions.</t>
 
         <figure>
