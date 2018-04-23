@@ -14,7 +14,7 @@
 <!-- Change to "yes" if someone has disclosed IPR for the draft -->
 <?rfc compact="yes"?>
 <!-- This defines the specific filename and version number of your draft (and inserts the appropriate IETF boilerplate -->
-<rfc category="std" docName="draft-ietf-netmod-acl-model-18" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-netmod-acl-model-19" ipr="trust200902">
   <front>
     <title abbrev="ACL YANG model">Network Access Control List (ACL) YANG Data
     Model</title>
@@ -70,7 +70,7 @@
       </address>
     </author>
 
-    <date day="15" month="March" year="2018"/>
+    <date day="24" month="April" year="2018"/>
 
     <area>Operations and Management Area</area>
 
@@ -186,8 +186,7 @@
 
       <section title="Tree Diagram">
         <t>For a reference to the annotations used in tree diagrams included
-        in this draft, please see <xref
-        target="I-D.ietf-netmod-yang-tree-diagrams">YANG Tree
+        in this draft, please see <xref target="RFC8340">YANG Tree
         Diagrams</xref>.</t>
       </section>
     </section>
@@ -299,9 +298,8 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-access-control-list@YYYY-MM-DD-tree.txt)
         "interface".</t>
 
         <t>This module imports definitions from <xref target="RFC6991">Common
-        YANG Data Types</xref>, and <xref
-        target="I-D.ietf-netmod-rfc7223bis">A YANG Data Model for Interface
-        Management</xref>.</t>
+        YANG Data Types</xref>, and <xref target="RFC8343">A YANG Data Model
+        for Interface Management</xref>.</t>
 
         <figure>
           <artwork><![CDATA[
@@ -382,8 +380,9 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml,68)
         upper-port included. When only a port is present, it represents a
         port, with the operator specifying the range.</t>
 
-        <t>The following XML example represents a configuration where traffic
-        to source ports 16384, 16385, 16386, and 16387 is dropped.</t>
+        <t>The following XML example represents a configuration where TCP
+        traffic from source ports 16384, 16385, 16386, and 16387 is
+        dropped.</t>
 
         <figure>
           <artwork><![CDATA[
@@ -391,8 +390,8 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.1.xml,68)
   ]]></artwork>
         </figure>
 
-        <t>The following XML example represents a configuration where all ping
-        echo requests are dropped.</t>
+        <t>The following XML example represents a configuration where all IPv4
+        ICMP echo requests are dropped.</t>
 
         <figure>
           <artwork><![CDATA[
@@ -401,7 +400,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.2.xml,68)
         </figure>
 
         <t>The following XML example represents a configuration of a single
-        port, port 21 that accepts traffic.</t>
+        port, port 21 that accepts TCP traffic.</t>
 
         <figure>
           <artwork><![CDATA[
@@ -432,7 +431,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.4.xml,68)
       mandatory-to-implement secure transport is <xref
       target="RFC5246">TLS</xref>.</t>
 
-      <t>The NETCONF Access Control Model (<xref target="RFC6536">NACM</xref>)
+      <t>The NETCONF Access Control Model (<xref target="RFC8341">NACM</xref>)
       provides the means to restrict access for particular NETCONF users to a
       pre-configured subset of all available NETCONF protocol operations and
       content.</t>
@@ -553,11 +552,9 @@ reference: RFC XXXX]]></artwork>
 
       <?rfc include='reference.RFC.6242'?>
 
-      <?rfc include='reference.RFC.6536'?>
-
       <?rfc include='reference.RFC.6991'?>
 
-      <?rfc include='reference.I-D.ietf-netmod-rfc7223bis'?>
+      <?rfc include='reference.RFC.8343'?>
 
       <?rfc include='reference.RFC.7950'?>
 
@@ -566,12 +563,14 @@ reference: RFC XXXX]]></artwork>
       <?rfc include='reference.RFC.8174'?>
 
       <?rfc include='reference.RFC.8200'?>
+
+      <?rfc include='reference.RFC.8341'?>
     </references>
 
     <references title="Informative References">
       <?rfc include='reference.RFC.7011'?>
 
-      <?rfc include='reference.I-D.ietf-netmod-yang-tree-diagrams'?>
+      <?rfc include='reference.RFC.8340'?>
     </references>
 
     <section anchor="app-additional" title="Extending ACL model examples">

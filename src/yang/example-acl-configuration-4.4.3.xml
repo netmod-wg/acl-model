@@ -10,10 +10,10 @@
           <name>rule1</name>
           <matches>
             <tcp>
-              <source-port>
+              <destination-port>
                 <operator>eq</operator>
                 <port>21</port>
-              </source-port>
+              </destination-port>
             </tcp>
           </matches>
           <actions>

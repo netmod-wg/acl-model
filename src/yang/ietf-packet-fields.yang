@@ -198,7 +198,9 @@ module ietf-packet-fields {
       type uint8;
       description
         "Internet Protocol number. Refers to the protocol of the
-         payload. In IPv6, this field is known as 'next-header.";
+         payload. In IPv6, this field is known as 'next-header,
+         and if extension headers are present, the protocol is
+         present in the 'upper-layer' header.";
       reference
         "RFC 791: Internet Protocol,
          RFC 8200: IPv6.";
