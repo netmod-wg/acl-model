@@ -70,7 +70,7 @@
       </address>
     </author>
 
-    <date day="24" month="April" year="2018"/>
+    <date day="27" month="April" year="2018"/>
 
     <area>Operations and Management Area</area>
 
@@ -194,9 +194,9 @@
     <!-- intro -->
 
     <section anchor="problem" title="Problem Statement">
-      <t>This document defines a <xref target="RFC7950">YANG</xref> data model
-      for the configuration of ACLs. It is very important that model can be
-      used easily by applications/attachments.</t>
+      <t>This document defines a <xref target="RFC7950">YANG 1.1 </xref> data
+      model for the configuration of ACLs. It is very important that model can
+      be used easily by applications/attachments.</t>
 
       <t>ACL implementations in every device may vary greatly in terms of the
       filter constructs and actions that they support. Therefore this draft
@@ -359,7 +359,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/ietf-packet-fields@YYYY-MM-DD.yang)
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml,68)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.1.xml,68)
 
 ]]></artwork>
         </figure>
@@ -372,6 +372,18 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml,68)
       deny tcp 192.0.2.0/24 198.51.100.0/24
 ]]></artwork>
         </figure>
+
+        <t/>
+
+        <t>Requirement: Accept all DNS traffic destined for 2001:db8::/32 on
+        port 53.</t>
+
+        <t><figure>
+            <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.2.xml,68)
+
+]]></artwork>
+          </figure></t>
       </section>
 
       <section anchor="portrange" title="Port Range Usage and Other Examples">
@@ -386,7 +398,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.3.xml,68)
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.1.xml,68)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.1.xml)
   ]]></artwork>
         </figure>
 
@@ -395,7 +407,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.1.xml,68)
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.2.xml,68)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.2.xml)
  ]]></artwork>
         </figure>
 
@@ -404,17 +416,17 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.2.xml,68)
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.3.xml,68)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.3.xml)
    ]]></artwork>
         </figure>
 
         <t>The following XML example represents a configuration specifying all
-        ports that are not equal to 21, that will drop packets destined for
-        those ports.</t>
+        ports that are not equal to 21, that will drop TCP packets destined
+        for those ports.</t>
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.4.xml,68)
+INSERT_TEXT_FROM_FILE(../src/yang/example-acl-configuration-4.4.4.xml)
 
 ]]></artwork>
         </figure>
@@ -536,21 +548,11 @@ reference: RFC XXXX]]></artwork>
 
       <?rfc include='reference.RFC.3168'?>
 
-      <?rfc include='reference.RFC.3688'?>
-
       <?rfc include='reference.RFC.4007'?>
 
       <?rfc include='reference.RFC.4291'?>
 
-      <?rfc include='reference.RFC.5246'?>
-
       <?rfc include='reference.RFC.5952'?>
-
-      <?rfc include='reference.RFC.6020'?>
-
-      <?rfc include='reference.RFC.6241'?>
-
-      <?rfc include='reference.RFC.6242'?>
 
       <?rfc include='reference.RFC.6991'?>
 
@@ -558,19 +560,29 @@ reference: RFC XXXX]]></artwork>
 
       <?rfc include='reference.RFC.7950'?>
 
-      <?rfc include='reference.RFC.8040'?>
-
       <?rfc include='reference.RFC.8174'?>
 
       <?rfc include='reference.RFC.8200'?>
-
-      <?rfc include='reference.RFC.8341'?>
     </references>
 
     <references title="Informative References">
+      <?rfc include='reference.RFC.3688'?>
+
+      <?rfc include='reference.RFC.5246'?>
+
+      <?rfc include='reference.RFC.6020'?>
+
+      <?rfc include='reference.RFC.6241'?>
+
+      <?rfc include='reference.RFC.6242'?>
+
       <?rfc include='reference.RFC.7011'?>
 
+      <?rfc include='reference.RFC.8040'?>
+
       <?rfc include='reference.RFC.8340'?>
+
+      <?rfc include='reference.RFC.8341'?>
     </references>
 
     <section anchor="app-additional" title="Extending ACL model examples">
@@ -587,7 +599,7 @@ reference: RFC XXXX]]></artwork>
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang,68)
+INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang)
 
 ]]></artwork>
         </figure>
@@ -605,7 +617,7 @@ INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD.yang,68)
 
         <figure>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD-tree.txt,68)
+INSERT_TEXT_FROM_FILE(../src/yang/example-newco-acl@YYYY-MM-DD-tree.txt)
 
 ]]></artwork>
         </figure>

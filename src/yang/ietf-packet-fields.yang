@@ -178,7 +178,7 @@ module ietf-packet-fields {
          the packet following the IPv6 header, in octets.";
       reference
         "RFC 791: Internet Protocol,
-         RFC 8200: IPv6.";
+         RFC 8200: Internet Protocol, Version 6 (IPv6) Specification.";
     }
 
     leaf ttl {
@@ -191,7 +191,7 @@ module ietf-packet-fields {
          In IPv6, this field is known as the Hop Limit.";
       reference
         "RFC 791: Internet Protocol,
-         RFC 8200: IPv6.";
+         RFC 8200: Internet Protocol, Version 6 (IPv6) Specification.";
     }
 
     leaf protocol {
@@ -203,7 +203,7 @@ module ietf-packet-fields {
          present in the 'upper-layer' header.";
       reference
         "RFC 791: Internet Protocol,
-         RFC 8200: IPv6.";
+         RFC 8200: Internet Protocol, Version 6 (IPv6) Specification.";
     }
   }
 
@@ -418,7 +418,8 @@ module ietf-packet-fields {
              a TCP segment with the ECE flag set and had
              responded in congestion control mechanism.";
           reference
-            "RFC 3168: Explicit Congestion Notification.";
+            "RFC 3168: The Addition of Explicit Congestion
+                       Notification (ECN) to IP.";
         }
         bit ece {
           position 2;
@@ -433,7 +434,8 @@ module ietf-packet-fields {
              indication of network congestion (or impending
              congestion) to the TCP sender.";
           reference
-            "RFC 3168: Explicit Congestion Notification.";
+            "RFC 3168: The Addition of Explicit Congestion
+                       Notification (ECN) to IP.";
         }
         bit urg {
           position 3;
@@ -476,7 +478,7 @@ module ietf-packet-fields {
       description
         "Also known as Control Bits. Contains 9 1-bit flags.";
       reference
-        "RFC 793: TCP.";
+        "RFC 793: Transmission Control Protocol (TCP).";
     }
 
     leaf window-size {
@@ -551,7 +553,7 @@ module ietf-packet-fields {
       description
         "Also known as Control messages.";
       reference
-        "RFC 792: ICMP.";
+        "RFC 792: Internet Control Message Protocol (ICMP).";
     }
 
     leaf code {

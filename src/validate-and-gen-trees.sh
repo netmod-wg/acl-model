@@ -29,47 +29,15 @@ rm yang/*-tree.txt.tmp
 
 echo "Validating examples"
 
-echo "Validating Section 4.3"
-response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.3.xml`
-if [ $? -ne 0 ]; then
-  printf "failed (error code: $?)\n"
-  printf "$response\n\n"
-  echo
-  exit 1
-fi
-
-echo "Validating Section 4.4.1"
-response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.1.xml`
-if [ $? -ne 0 ]; then
-  printf "failed (error code: $?)\n"
-  printf "$response\n\n"
-  echo
-  exit 1
-fi
-
-echo "Validating Section 4.4.2"
-response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.2.xml`
-if [ $? -ne 0 ]; then
-  printf "failed (error code: $?)\n"
-  printf "$response\n\n"
-  echo
-  exit 1
-fi
-
-echo "Validating Section 4.4.3"
-response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.3.xml`
-if [ $? -ne 0 ]; then
-  printf "failed (error code: $?)\n"
-  printf "$response\n\n"
-  echo
-  exit 1
-fi
-
-echo "Validating Section 4.4.4"
-response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang ../src/yang/example-acl-configuration-4.4.4.xml`
-if [ $? -ne 0 ]; then
-  printf "failed (error code: $?)\n"
-  printf "$response\n\n"
-  echo
-  exit 1
-fi
+for i in yang/example-acl-configuration-*.xml
+do
+    name=$(echo $i | cut -f 1-3 -d '.')
+    echo "Validating $name.xml"
+    response=`yanglint -s -i -t auto -p ../../ yang/ietf-access-control-list\@$(date +%Y-%m-%d).yang $name.xml`
+    if [ $? -ne 0 ]; then
+       printf "failed (error code: $?)\n"
+       printf "$response\n\n"
+       echo
+       exit 1
+    fi
+done
