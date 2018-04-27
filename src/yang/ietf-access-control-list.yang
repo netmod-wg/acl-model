@@ -18,8 +18,7 @@ module ietf-access-control-list {
   import ietf-interfaces {
     prefix if;
     reference
-      "I-D.draft-ietf-netmod-rfc7223bis - A YANG Data Model for 
-       Interface Management.";
+      "RFC 8343 - A YANG Data Model for Interface Management.";
   }
 
   organization
