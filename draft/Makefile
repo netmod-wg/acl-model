@@ -20,7 +20,7 @@ draft_type := $(suffix $(firstword $(wildcard $(draft).md $(draft).org $(draft).
 
 current_ver := $(shell git tag | grep '$(draft)-[0-9][0-9]' | tail -1 | sed -e"s/.*-//")
 ifeq "${current_ver}" ""
-next_ver ?= 15
+next_ver ?= 00
 else
 next_ver ?= $(shell printf "%.2d" $$((1$(current_ver)-99)))
 endif
@@ -37,7 +37,8 @@ idnits: $(next).txt
 
 clean:
 	-rm -f $(draft).txt $(draft).html index.html
-	-rm -f $(next).txt $(next).html
+	-rm -f $(draft)-[0-9][0-9].txt
+	-rm -f $(draft)-[0-9][0-9].html
 	-rm -f $(draft)-[0-9][0-9].xml
 	-rm -f $(draft)-[0-9][0-9].xml[~]
 	-rm ../src/yang/*\@$(shell date +%Y)-*-*-tree.txt
@@ -57,7 +58,7 @@ $(next).xml: $(draft).xml ../src/yang/ietf-access-control-list.yang ../src/yang/
 	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ../src/yang/example-newco-acl.yang > ../src/yang/example-newco-acl\@$(shell date +%Y-%m-%d).yang
 	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ../src/yang/ietf-ethertypes.yang > ../src/yang/ietf-ethertypes\@$(shell date +%Y-%m-%d).yang
 
-	cd ../src; ./gen-trees.sh; cd ..;
+	cd ../src; ./validate-and-gen-trees.sh; cd ..;
 	../src/insert-figures.sh $@ > tmp; mv tmp $@
 
 .INTERMEDIATE: $(draft).xml
@@ -69,6 +70,7 @@ $(next).xml: $(draft).xml ../src/yang/ietf-access-control-list.yang ../src/yang/
 
 %.txt: %.xml
 	$(xml2rfc) $< -o $@ --text
+	$(idnits) $@
 
 ifeq "$(shell uname -s 2>/dev/null)" "Darwin"
 sed_i := sed -i ''

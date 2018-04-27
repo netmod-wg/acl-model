@@ -5,18 +5,24 @@ module ietf-access-control-list {
 
   import ietf-yang-types {
     prefix yang;
+    reference
+      "RFC 6991 - Common YANG Data Types.";
   }
 
   import ietf-packet-fields {
-    prefix packet-fields;
+    prefix pf;
+    reference
+    "RFC XXXX - Network ACL YANG Model.";
   }
 
   import ietf-interfaces {
     prefix if;
+    reference
+      "RFC 8343 - A YANG Data Model for Interface Management.";
   }
 
   organization
-    "IETF NETMOD (NETCONF Data Modeling Language)
+    "IETF NETMOD (Network Modeling Language)
      Working Group";
 
   contact
@@ -118,7 +124,7 @@ module ietf-access-control-list {
     base acl:acl-base;
     if-feature "ipv4";
     description
-      "ACL that primarily matches on fields from the IPv4 header
+      "An ACL that matches on fields from the IPv4 header
        (e.g. IPv4 destination address) and layer 4 headers (e.g. TCP
        destination port).  An acl of type ipv4 does not contain
        matches on fields in the ethernet header or the IPv6 header.";
@@ -128,7 +134,7 @@ module ietf-access-control-list {
     base acl:acl-base;
     if-feature "ipv6";
     description
-      "ACL that primarily matches on fields from the IPv6 header
+      "An ACL that matches on fields from the IPv6 header
        (e.g. IPv6 destination address) and layer 4 headers (e.g. TCP
        destination port). An acl of type ipv6 does not contain
        matches on fields in the ethernet header or the IPv4 header.";
@@ -138,7 +144,7 @@ module ietf-access-control-list {
     base acl:acl-base;
     if-feature "eth";
     description
-      "ACL that primarily matches on fields in the ethernet header,
+      "An ACL that matches on fields in the ethernet header,
        like 10/100/1000baseT or WiFi Access Control List. An acl of
        type ethernet does not contain matches on fields in the IPv4
        header, IPv6 header or layer 4 headers.";
@@ -149,9 +155,9 @@ module ietf-access-control-list {
     base "acl:ipv4-acl-type";
     if-feature "mixed-eth-ipv4";
     description
-      "ACL that contains a mix of entries that
-       primarily match on fields in ethernet headers,
-       entries that primarily match on IPv4 headers.
+      "An ACL that contains a mix of entries that
+       match on fields in ethernet headers,
+       entries that match on IPv4 headers.
        Matching on layer 4 header fields may also exist in the
        list.";
   }
@@ -162,8 +168,8 @@ module ietf-access-control-list {
     if-feature "mixed-eth-ipv6";
     description
       "ACL that contains a mix of entries that
-       primarily match on fields in ethernet headers, entries
-       that primarily match on fields in IPv6 headers. Matching on
+       match on fields in ethernet headers, entries
+       that match on fields in IPv6 headers. Matching on
        layer 4 header fields may also exist in the list.";
   }
 
@@ -174,9 +180,9 @@ module ietf-access-control-list {
     if-feature "mixed-eth-ipv4-ipv6";
     description
       "ACL that contains a mix of entries that
-       primarily match on fields in ethernet headers, entries
-       that primarily match on fields in IPv4 headers, and entries
-       that primarily match on fields in IPv6 headers. Matching on
+       match on fields in ethernet headers, entries
+       that match on fields in IPv4 headers, and entries
+       that match on fields in IPv6 headers. Matching on
        layer 4 header fields may also exist in the list.";
   }
 
@@ -189,32 +195,32 @@ module ietf-access-control-list {
    */
   feature match-on-eth {
     description
-      "Device can support matching on ethernet headers.";
+      "The device can support matching on ethernet headers.";
   }
 
   feature match-on-ipv4 {
     description
-      "Device can support matching on IPv4 headers.";
+      "The device can support matching on IPv4 headers.";
   }
 
   feature match-on-ipv6 {
     description
-      "Device can support matching on IPv6 headers.";
+      "The device can support matching on IPv6 headers.";
   }
 
   feature match-on-tcp {
     description
-      "Device can support TCP headers.";
+      "The device can support TCP headers.";
   }
 
   feature match-on-udp {
     description
-      "Device can support UDP header.";
+      "The device can support UDP header.";
   }
 
   feature match-on-icmp {
     description
-      "Device can support ICMP header.";
+      "The device can support ICMP header.";
   }
   
   /*
@@ -343,26 +349,26 @@ module ietf-access-control-list {
   /*
    * Configuration data nodes
    */
-  container access-lists {
+  container acls {
     description
       "This is a top level container for Access Control Lists.
-       It can have one or more Access Control Lists.";
+       It can have one or more acl nodes.";
     list acl {
       key "name";
       description
-        "An Access Control List(ACL) is an ordered list of
-         Access List Entries (ACE). Each Access Control Entry has a
+        "An Access Control List (ACL) is an ordered list of
+         Access Control Entries (ACE). Each ACE has a
          list of match criteria and a list of actions.
          Since there are several kinds of Access Control Lists
          implemented with different attributes for
          different vendors, this model accommodates customizing 
-         Access Control Lists for each kind and for each vendor.";
+         Access Control Lists for each kind and, for each vendor.";
       leaf name {
         type string {
           length "1..64";
         }
         description
-          "The name of access-list. A device MAY restrict the length
+          "The name of access list. A device MAY restrict the length
            and value of this name, possibly space and special
            characters are not allowed.";
       }
@@ -375,20 +381,19 @@ module ietf-access-control-list {
       }
       container aces {
         description
-          "The access-list-entries container contains
-           a list of access-list-entries(ACE).";
+          "The aces container contains one or more ace nodes.";
         list ace {
           key "name";
           ordered-by user;
           description
-            "List of access list entries(ACE)";
+            "List of Access Control Entries (ACEs)";
           leaf name {
             type string {
               length "1..64";
             }
             description
-              "A unique name identifying this Access List
-               Entry(ACE).";
+              "A unique name identifying this Access Control
+               Entry (ACE).";
           }
 
           container matches {
@@ -404,10 +409,10 @@ module ietf-access-control-list {
 
             choice l2 {
               container eth {
-                when "derived-from(../../../../type, " +
+                when "derived-from-or-self(/acls/acl/type, " +
                      "'acl:eth-acl-type')";
                 if-feature match-on-eth;
-                uses packet-fields:acl-eth-header-fields;
+                uses pf:acl-eth-header-fields;
                 description
                   "Rule set that matches ethernet headers.";
               }
@@ -418,21 +423,21 @@ module ietf-access-control-list {
 
             choice l3 {
               container ipv4 {
-                when "derived-from(../../../../type, " +
+                when "derived-from-or-self(/acls/acl/type, " +
                      "'acl:ipv4-acl-type')";
                 if-feature match-on-ipv4;
-                uses packet-fields:acl-ip-header-fields;
-                uses packet-fields:acl-ipv4-header-fields;
+                uses pf:acl-ip-header-fields;
+                uses pf:acl-ipv4-header-fields;
                 description
                   "Rule set that matches IPv4 headers.";
               }
 
               container ipv6 {
-                when "derived-from(../../../../type, " +
+                when "derived-from-or-self(/acls/acl/type, " +
                      "'acl:ipv6-acl-type')";
                 if-feature match-on-ipv6;
-                uses packet-fields:acl-ip-header-fields;
-                uses packet-fields:acl-ipv6-header-fields;
+                uses pf:acl-ip-header-fields;
+                uses pf:acl-ipv6-header-fields;
                 description
                   "Rule set that matches IPv6 headers.";
               }
@@ -443,21 +448,89 @@ module ietf-access-control-list {
             choice l4 {
               container tcp {
                 if-feature match-on-tcp;
-                uses packet-fields:acl-tcp-header-fields;
+                uses pf:acl-tcp-header-fields;
+                container source-port {
+                  choice source-port {
+                    case range-or-operator {
+                      uses pf:port-range-or-operator;
+                      description
+                        "Source port definition from range or
+                         operator.";
+                    }
+                    description
+                      "Choice of source port definition using
+                       range/operator or a choice to support future
+                       'case' statements, such as one enabling a
+                       group of source ports to be referenced.";
+                  }
                   description
-                    "Rule set that matches TCP headers.";
+                    "Source port definition.";
+                }
+                container destination-port {
+                  choice destination-port {
+                    case range-or-operator {
+                      uses pf:port-range-or-operator;
+                      description
+                        "Destination port definition from range or
+                         operator.";
+                    }
+                    description
+                      "Choice of destination port definition using
+                       range/operator or a choice to support future
+                       'case' statements, such as one enabling a
+                       group of destination ports to be referenced.";
+                  }
+                  description
+                    "Destination port definition.";
+                }
+                description
+                  "Rule set that matches TCP headers.";
               }
 
               container udp {
                 if-feature match-on-udp;
-                uses packet-fields:acl-udp-header-fields;
+                uses pf:acl-udp-header-fields;
+                container source-port {
+                  choice source-port {
+                    case range-or-operator {
+                      uses pf:port-range-or-operator;
+                      description
+                        "Source port definition from range or
+                         operator.";
+                    }
+                    description
+                      "Choice of source port definition using
+                       range/operator or a choice to support future
+                       'case' statements, such as one enabling a
+                       group of source ports to be referenced.";
+                  }
+                  description
+                    "Source port definition.";
+                }
+                container destination-port {
+                  choice destination-port {
+                    case range-or-operator {
+                      uses pf:port-range-or-operator;
+                      description
+                        "Destination port definition from range or
+                         operator.";
+                    }
+                    description
+                      "Choice of destination port definition using
+                       range/operator or a choice to support future
+                       'case' statements, such as one enabling a
+                       group of destination ports to be referenced.";
+                  }
+                  description
+                    "Destination port definition.";
+                }
                 description
                   "Rule set that matches UDP headers.";
               }
 
               container icmp {
                 if-feature match-on-icmp;
-                uses packet-fields:acl-icmp-header-fields;
+                uses pf:acl-icmp-header-fields;
                 description
                   "Rule set that matches ICMP headers.";
               }
@@ -469,8 +542,8 @@ module ietf-access-control-list {
               type if:interface-ref;
               description
                 "Egress interface. This should not be used if this ACL
-                 is attached as an egress ACL (or the value should equal
-                 the interface to which the ACL is attached).";
+                 is attached as an egress ACL (or the value should
+                 equal the interface to which the ACL is attached).";
             }
 
             leaf ingress-interface {
@@ -541,7 +614,7 @@ module ietf-access-control-list {
 
             leaf name {
               type leafref {
-                path "../../../../../../acl/name";
+                path "/acls/acl/name";
               }
               description
                 "Reference to the ACL name applied on ingress";
@@ -552,10 +625,10 @@ module ietf-access-control-list {
               key "name";
               config false;
               description
-                "List of access list entries(ACE)";
+                "List of Access Control Entries (ACEs)";
               leaf name {
                 type leafref {
-                  path "../../../../../../../acl/aces/ace/name";
+                  path "/acls/acl/aces/ace/name";
                 }
                 description
                   "The ace name";
@@ -581,12 +654,12 @@ module ietf-access-control-list {
         container ingress {
           uses interface-acl;
           description
-            "The ACL's applied to ingress interface";
+            "The ACLs applied to ingress interface";
         }
         container egress {
           uses interface-acl;
           description
-            "The ACL's applied to egress interface";
+            "The ACLs applied to egress interface";
         }
       }
     }
